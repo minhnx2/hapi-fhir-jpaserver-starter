@@ -6,7 +6,12 @@ services:
     container_name: hapi-fhir-mysql
     #https://dev.mysql.com/doc/refman/8.0/en/identifier-case-sensitivity.html
     command: --lower_case_table_names=1
-    restart: always
+    restart: on-failure
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]            
+      interval: 20s
+      timeout: 20s
+      retries: 3
     environment:
       MYSQL_DATABASE: 'hapi'
       MYSQL_USER: 'admin'
@@ -14,11 +19,13 @@ services:
       MYSQL_ROOT_PASSWORD: 'admin'
     volumes:
       - hapi-fhir-mysql:/var/lib/mysql
-  hapi-fhir-jpaserver-start:
-    build: .
-    container_name: hapi-fhir-jpaserver-start
-    restart: on-failure
-    ports:
-      - "8080:8080"  
+  # hapi-fhir-jpaserver-start:
+  #   build: .
+  #   depends_on:
+  #     - hapi-fhir-mysql
+  #   container_name: hapi-fhir-jpaserver-start
+  #   restart: on-failure
+  #   ports:
+  #     - "8080:8080"
 volumes:
   hapi-fhir-mysql:

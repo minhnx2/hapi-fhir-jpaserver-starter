@@ -13,11 +13,13 @@ In order to use this sample, you should have:
 - [This project](https://github.com/hapifhir/hapi-fhir-jpaserver-starter) checked out. You may wish to create a GitHub Fork of the project and check that out instead so that you can customize the project and save the results to GitHub.
 
 ### and either
- - Oracle Java (JDK) installed: Minimum JDK8 or newer.
- - Apache Maven build tool (newest version)
+
+- Oracle Java (JDK) installed: Minimum JDK8 or newer.
+- Apache Maven build tool (newest version)
 
 ### or
- - Docker, as the entire project can be built using multistage docker (with both JDK and maven wrapped in docker) or used directly from [Docker Hub](https://hub.docker.com/repository/docker/hapiproject/hapi)
+
+- Docker, as the entire project can be built using multistage docker (with both JDK and maven wrapped in docker) or used directly from [Docker Hub](https://hub.docker.com/repository/docker/hapiproject/hapi)
 
 ## Running via [Docker Hub](https://hub.docker.com/repository/docker/hapiproject/hapi)
 
@@ -49,14 +51,14 @@ You can customize HAPI by telling HAPI to look for the configuration file in a d
 ```
 docker run -p 8090:8080 -v $(pwd)/yourLocalFolder:/configs -e "--spring.config.location=file:///configs/another.application.yaml" hapiproject/hapi:latest
 ```
-Here, the configuration file (*another.application.yaml*) is placed locally in the folder *yourLocalFolder*.
 
-
+Here, the configuration file (_another.application.yaml_) is placed locally in the folder _yourLocalFolder_.
 
 ```
 docker run -p 8090:8080 -e "--spring.config.location=classpath:/another.application.yaml" hapiproject/hapi:latest
 ```
-Here, the configuration file (*another.application.yaml*) is part of the compiled set of resources.
+
+Here, the configuration file (_another.application.yaml_) is part of the compiled set of resources.
 
 ### Example using docker-compose.yml for docker-compose
 
@@ -87,10 +89,10 @@ volumes:
 The easiest way to run this server entirely depends on your environment requirements. At least, the following 4 ways are supported:
 
 ### Using jetty
+
 ```bash
 mvn jetty:run
 ```
-
 
 If you need to run this server on a different port (using Maven), you can change the port in the run command as follows:
 
@@ -101,76 +103,80 @@ mvn -Djetty.port=8888 jetty:run
 Server will then be accessible at http://localhost:8888/ and eg. http://localhost:8888/fhir/metadata. Remember to adjust you overlay configuration in the application.yaml to eg.
 
 ```yaml
-    tester:
-      -
-          id: home
-          name: Local Tester
-          server_address: 'http://localhost:8888/fhir'
-          refuse_to_fetch_third_party_urls: false
-          fhir_version: R4
+tester:
+  - id: home
+    name: Local Tester
+    server_address: "http://localhost:8888/fhir"
+    refuse_to_fetch_third_party_urls: false
+    fhir_version: R4
 ```
 
 ### Using Spring Boot with :run
+
 ```bash
 mvn clean spring-boot:run -Pboot
 ```
+
 Server will then be accessible at http://localhost:8080/ and eg. http://localhost:8080/fhir/metadata. Remember to adjust you overlay configuration in the application.yaml to eg.
 
 ```yaml
-    tester:
-      -
-          id: home
-          name: Local Tester
-          server_address: 'http://localhost:8080/fhir'
-          refuse_to_fetch_third_party_urls: false
-          fhir_version: R4
+tester:
+  - id: home
+    name: Local Tester
+    server_address: "http://localhost:8080/fhir"
+    refuse_to_fetch_third_party_urls: false
+    fhir_version: R4
 ```
 
 ### Using Spring Boot
+
 ```bash
 mvn clean package spring-boot:repackage -Pboot && java -jar target/ROOT.war
 ```
+
 Server will then be accessible at http://localhost:8080/ and eg. http://localhost:8080/fhir/metadata. Remember to adjust you overlay configuration in the application.yaml to eg.
 
 ```yaml
-    tester:
-      -
-          id: home
-          name: Local Tester
-          server_address: 'http://localhost:8080/fhir'
-          refuse_to_fetch_third_party_urls: false
-          fhir_version: R4
+tester:
+  - id: home
+    name: Local Tester
+    server_address: "http://localhost:8080/fhir"
+    refuse_to_fetch_third_party_urls: false
+    fhir_version: R4
 ```
+
 ### Using Spring Boot and Google distroless
+
 ```bash
 mvn clean package com.google.cloud.tools:jib-maven-plugin:dockerBuild -Dimage=distroless-hapi && docker run -p 8080:8080 distroless-hapi
 ```
+
 Server will then be accessible at http://localhost:8080/ and eg. http://localhost:8080/fhir/metadata. Remember to adjust you overlay configuration in the application.yaml to eg.
 
 ```yaml
-    tester:
-      -
-          id: home
-          name: Local Tester
-          server_address: 'http://localhost:8080/fhir'
-          refuse_to_fetch_third_party_urls: false
-          fhir_version: R4
+tester:
+  - id: home
+    name: Local Tester
+    server_address: "http://localhost:8080/fhir"
+    refuse_to_fetch_third_party_urls: false
+    fhir_version: R4
 ```
 
 ### Using the Dockerfile and multistage build
+
 ```bash
 ./build-docker-image.sh && docker run -p 8080:8080 hapi-fhir/hapi-fhir-jpaserver-starter:latest
 ```
+
 Server will then be accessible at http://localhost:8080/ and eg. http://localhost:8080/fhir/metadata. Remember to adjust you overlay configuration in the application.yaml to eg.
 
 ```yaml
-    tester:
-      -
-          id: home
-          name: Local Tester
-          server_address: 'http://localhost:8080/fhir'
-          refuse_to_fetch_third_party_urls: false
-          fhir_version: R4
+tester:
+  - id: home
+    name: Local Tester
+    server_address: "http://localhost:8080/fhir"
+    refuse_to_fetch_third_party_urls: false
+    fhir_version: R4
 ```
 
 ## Configurations
@@ -184,7 +190,7 @@ To configure the starter app to use MySQL, instead of the default H2, update the
 ```yaml
 spring:
   datasource:
-    url: 'jdbc:mysql://localhost:3306/hapi_dstu3'
+    url: "jdbc:mysql://localhost:3306/hapi_dstu3"
     username: admin
     password: admin
     driverClassName: com.mysql.jdbc.Driver
@@ -196,15 +202,16 @@ Also, make sure you are not setting the Hibernate dialect explicitly, in other w
 hibernate.dialect: {some none MySQL dialect}
 ```
 
-On some systems, it might be necessary to override hibernate's default naming strategy. The naming strategy must be set using spring.jpa.hibernate.physical_naming_strategy. 
+On some systems, it might be necessary to override hibernate's default naming strategy. The naming strategy must be set using spring.jpa.hibernate.physical_naming_strategy.
 
 ```yaml
 spring:
   jpa:
     hibernate.physical_naming_strategy: NAME_OF_PREFERRED_STRATEGY
 ```
+
 On linux systems or when using docker mysql containers, it will be necessary to review the case-sensitive setup for
-mysql schema identifiers. See  https://dev.mysql.com/doc/refman/8.0/en/identifier-case-sensitivity.html. We suggest you
+mysql schema identifiers. See https://dev.mysql.com/doc/refman/8.0/en/identifier-case-sensitivity.html. We suggest you
 set `lower_case_table_names=1` during mysql startup.
 
 ### PostgreSQL configuration
@@ -214,7 +221,7 @@ To configure the starter app to use PostgreSQL, instead of the default H2, updat
 ```yaml
 spring:
   datasource:
-    url: 'jdbc:postgresql://localhost:5432/hapi_dstu3'
+    url: "jdbc:postgresql://localhost:5432/hapi_dstu3"
     username: admin
     password: admin
     driverClassName: org.postgresql.Driver
@@ -229,18 +236,16 @@ To configure the starter app to use MS SQL Server, instead of the default H2, up
 ```yaml
 spring:
   datasource:
-    url: 'jdbc:sqlserver://<server>:<port>;databaseName=<databasename>'
+    url: "jdbc:sqlserver://<server>:<port>;databaseName=<databasename>"
     username: admin
     password: admin
     driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
 ```
 
-
 Because the integration tests within the project rely on the default H2 database configuration, it is important to either explicity skip the integration tests during the build process, i.e., `mvn install -DskipTests`, or delete the tests altogether. Failure to skip or delete the tests once you've configured PostgreSQL for the datasource.driver, datasource.url, and hibernate.dialect as outlined above will result in build errors and compilation failure.
 
-
-NOTE: MS SQL Server by default uses a case-insensitive codepage. This will cause errors with some operations - such as when expanding case-sensitive valuesets (UCUM) as there are unique indexes defined on the terminology tables for codes. 
-It is recommended to deploy a case-sensitive database prior to running HAPI FHIR when using MS SQL Server to avoid these and potentially other issues. 
+NOTE: MS SQL Server by default uses a case-insensitive codepage. This will cause errors with some operations - such as when expanding case-sensitive valuesets (UCUM) as there are unique indexes defined on the terminology tables for codes.
+It is recommended to deploy a case-sensitive database prior to running HAPI FHIR when using MS SQL Server to avoid these and potentially other issues.
 
 ## Customizing The Web Testpage UI
 
@@ -272,18 +277,16 @@ Again, browse to the following link to use the server (note that the port 8080 m
 
 You will then be able access the JPA server e.g. using http://localhost:8080/fhir/metadata.
 
-If you would like it to be hosted at eg. hapi-fhir-jpaserver, eg. http://localhost:8080/hapi-fhir-jpaserver/ or http://localhost:8080/hapi-fhir-jpaserver/fhir/metadata - then rename the WAR file to ```hapi-fhir-jpaserver.war``` and adjust the overlay configuration accordingly e.g.
+If you would like it to be hosted at eg. hapi-fhir-jpaserver, eg. http://localhost:8080/hapi-fhir-jpaserver/ or http://localhost:8080/hapi-fhir-jpaserver/fhir/metadata - then rename the WAR file to `hapi-fhir-jpaserver.war` and adjust the overlay configuration accordingly e.g.
 
 ```yaml
-    tester:
-      -
-          id: home
-          name: Local Tester
-          server_address: 'http://localhost:8080/hapi-fhir-jpaserver/fhir'
-          refuse_to_fetch_third_party_urls: false
-          fhir_version: R4
+tester:
+  - id: home
+    name: Local Tester
+    server_address: "http://localhost:8080/hapi-fhir-jpaserver/fhir"
+    refuse_to_fetch_third_party_urls: false
+    fhir_version: R4
 ```
-
 
 ## Deploy with docker compose
 
@@ -300,7 +303,7 @@ properties in application.yaml:
 ```yaml
 spring:
   datasource:
-    url: 'jdbc:mysql://hapi-fhir-mysql:3306/hapi'
+    url: "jdbc:mysql://hapi-fhir-mysql:3306/hapi"
     username: admin
     password: admin
     driverClassName: com.mysql.jdbc.Driver
@@ -309,7 +312,8 @@ spring:
 Also, make sure you are not setting the Hibernate Dialect explicitly, see more details in the section about MySQL.
 
 ## Running hapi-fhir-jpaserver directly from IntelliJ as Spring Boot
-Make sure you run with the maven profile called ```boot``` and NOT also ```jetty```. Then you are ready to press debug the project directly without any extra Application Servers.
+
+Make sure you run with the maven profile called `boot` and NOT also `jetty`. Then you are ready to press debug the project directly without any extra Application Servers.
 
 ## Running hapi-fhir-jpaserver-example in Tomcat from IntelliJ
 
@@ -361,7 +365,7 @@ Set `hapi.fhir.cql_enabled=true` in the [application.yaml](https://github.com/ha
 
 ## Enabling MDM (EMPI)
 
-Set `hapi.fhir.mdm_enabled=true` in the [application.yaml](https://github.com/hapifhir/hapi-fhir-jpaserver-starter/blob/master/src/main/resources/application.yaml) file to enable MDM on this server.  The MDM matching rules are configured in [mdm-rules.json](https://github.com/hapifhir/hapi-fhir-jpaserver-starter/blob/master/src/main/resources/mdm-rules.json).  The rules in this example file should be replaced with actual matching rules appropriate to your data. Note that MDM relies on subscriptions, so for MDM to work, subscriptions must be enabled.
+Set `hapi.fhir.mdm_enabled=true` in the [application.yaml](https://github.com/hapifhir/hapi-fhir-jpaserver-starter/blob/master/src/main/resources/application.yaml) file to enable MDM on this server. The MDM matching rules are configured in [mdm-rules.json](https://github.com/hapifhir/hapi-fhir-jpaserver-starter/blob/master/src/main/resources/mdm-rules.json). The rules in this example file should be replaced with actual matching rules appropriate to your data. Note that MDM relies on subscriptions, so for MDM to work, subscriptions must be enabled.
 
 ## Using Elasticsearch
 
@@ -381,7 +385,7 @@ elasticsearch.schema_management_strategy=CREATE
 
 ## Enabling LastN
 
-Set `hapi.fhir.lastn_enabled=true` in the [application.yaml](https://github.com/hapifhir/hapi-fhir-jpaserver-starter/blob/master/src/main/resources/application.yaml) file to enable the $lastn operation on this server.  Note that the $lastn operation relies on Elasticsearch, so for $lastn to work, indexing must be enabled using Elasticsearch.
+Set `hapi.fhir.lastn_enabled=true` in the [application.yaml](https://github.com/hapifhir/hapi-fhir-jpaserver-starter/blob/master/src/main/resources/application.yaml) file to enable the $lastn operation on this server. Note that the $lastn operation relies on Elasticsearch, so for $lastn to work, indexing must be enabled using Elasticsearch.
 
 ## Enabling Resource to be stored in Lucene Index
 
@@ -390,7 +394,7 @@ Set `hapi.fhir.store_resource_in_lucene_index_enabled` in the [application.yaml]
 ## Changing cached search results time
 
 It is possible to change the cached search results time. The option `reuse_cached_search_results_millis` in the [application.yaml](https://github.com/hapifhir/hapi-fhir-jpaserver-starter/blob/master/src/main/resources/application.yaml) is 6000 miliseconds by default.
-Set `reuse_cached_search_results_millis: -1` in the [application.yaml](https://github.com/hapifhir/hapi-fhir-jpaserver-starter/blob/master/src/main/resources/application.yaml) file to ignore the cache time every search. 
+Set `reuse_cached_search_results_millis: -1` in the [application.yaml](https://github.com/hapifhir/hapi-fhir-jpaserver-starter/blob/master/src/main/resources/application.yaml) file to ignore the cache time every search.
 
 ## Build the distroless variant of the image (for lower footprint and improved security)
 
@@ -409,3 +413,13 @@ see the `-distroless` suffix in the image tags.
 To add a custom operation, refer to the documentation in the core hapi-fhir libraries [here](https://hapifhir.io/hapi-fhir/docs/server_plain/rest_operations_operations.html).
 
 Within `hapi-fhir-jpaserver-starter`, create a generic class (that does not extend or implement any classes or interfaces), add the `@Operation` as a method within the generic class, and then register the class as a provider using `RestfulServer.registerProvider()`.
+
+# Auth environment variables
+
+Ex:
+
+```
+JWT_HEADER_PREFIX=Bearer
+JWT_AUTHZ_CLAIM=patient_id
+JWT_ADMIN_GROUP=admin
+```
