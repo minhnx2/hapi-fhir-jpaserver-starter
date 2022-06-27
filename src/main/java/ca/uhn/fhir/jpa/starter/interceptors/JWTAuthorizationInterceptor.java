@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.hl7.fhir.r4.model.IdType;
+import org.springframework.util.StringUtils;
 
 import ca.uhn.fhir.model.dstu2.resource.Flag;
 import ca.uhn.fhir.model.dstu2.resource.Patient;
@@ -35,19 +36,19 @@ public class JWTAuthorizationInterceptor extends AuthorizationInterceptor {
 
 				// Determine if the user is an admin
 				if (verifier.isAdmin(token)) {
-
 					// Allow anything
 					return new RuleBuilder()
 							.allowAll().build();
 
 				} else {
-
 					List<String> patientIds = new ArrayList<>();
 					Map<String, Object> authorizations = verifier.getAuthorizations(token);
 
 					if (authorizations.get("patients") != null && authorizations.get("patients") instanceof List) {
 						for (Object item : (List<Object>) authorizations.get("patients")) {
-							patientIds.add(item.toString());
+							if (StringUtils.hasText(item.toString())) {
+								patientIds.add(item.toString());
+							}
 						}
 					}
 
