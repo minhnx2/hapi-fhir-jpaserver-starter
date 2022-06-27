@@ -421,5 +421,5 @@ Ex:
 ```
 JWT_HEADER_PREFIX=Bearer
 JWT_AUTHZ_CLAIM=patient_id
-JWT_ADMIN_GROUP=admin
+JWT_ADMIN_GROUP=fhirAdmin
 ```

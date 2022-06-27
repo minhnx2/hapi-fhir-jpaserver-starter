@@ -8,12 +8,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.Validate;
+import org.springframework.util.StringUtils;
 
 import com.nimbusds.jose.shaded.json.JSONArray;
 import com.nimbusds.jwt.JWT;
 import com.nimbusds.jwt.JWTParser;
 
 import ca.uhn.fhir.rest.server.exceptions.AuthenticationException;
+import ca.uhn.fhir.util.StringUtil;
 
 @SuppressWarnings("WeakerAccess")
 class TokenVerifier {
@@ -52,6 +54,9 @@ class TokenVerifier {
 		JWT jwt = decodeToken(idToken);
 		// Get the JWT authority details
 		String authzClaim = System.getenv("JWT_AUTHZ_CLAIM");
+		if (!StringUtils.hasText(authzClaim)) {
+			authzClaim = "patient_id";
+		}
 		Validate.notNull(authzClaim, "JWT_AUTHZ_CLAIM must be set in environment");
 
 		try {
@@ -116,6 +121,9 @@ class TokenVerifier {
 		Validate.notNull(idToken);
 
 		String adminGroup = System.getenv("JWT_ADMIN_GROUP");
+		if (!StringUtils.hasText(adminGroup)) {
+			adminGroup = "fhirAdmin";
+		}
 		Validate.notNull(adminGroup, "JWT_ADMIN_GROUP must be set in environment");
 
 		// Get the authorizations claim
@@ -144,6 +152,9 @@ class TokenVerifier {
 
 		// Get the auth header prefix to use
 		String prefix = System.getenv("JWT_HEADER_PREFIX");
+		if (!StringUtils.hasText(prefix)) {
+			prefix = "Bearer";
+		}
 		Validate.notNull(prefix, "JWT_HEADER_PREFIX must be set in environment");
 
 		// Ensure it ends with a space
